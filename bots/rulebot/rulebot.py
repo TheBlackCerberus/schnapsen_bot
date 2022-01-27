@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-"""
-This is Matt's branch for rulebot (just a statement, don't actually do this)
-"""
-=======
+
 from api import State
 import random
 
@@ -33,7 +29,7 @@ class Bot:
 
     #get if trump exchange 
     def trump_exchange(self, state):
-        # add a card that is trump exchange
+
         pass
     
     #return a list of marriages
@@ -67,6 +63,7 @@ class Bot:
         moves = state.moves()
         trump_moves = [] 
         
-        
+
+
         return random.choice(moves)
->>>>>>> Stashed changes
+
