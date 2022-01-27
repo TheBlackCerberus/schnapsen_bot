@@ -1,3 +1,4 @@
+
 from api import State
 import random
 
@@ -28,6 +29,7 @@ class Bot:
 
     #get if trump exchange 
     def trump_exchange(self, state):
+
         pass
     
     #return a list of marriages
@@ -61,5 +63,7 @@ class Bot:
         moves = state.moves()
         trump_moves = [] 
         
-        
+
+
         return random.choice(moves)
+
