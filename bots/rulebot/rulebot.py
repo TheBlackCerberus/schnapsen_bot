@@ -1,4 +1,3 @@
-
 from api import State
 import random
 
@@ -11,16 +10,13 @@ import random
 # 4, 9, 14, 19 - Jacks
 
 '''
-
 util.get_rank(index) and util.get_suit(index) 
 gets rank and suit from card number
 
 util.get_card_name(index)
 returns the rank and the suit of the card as a tuple
 
-
 '''
-
 
 class Bot:
 
@@ -29,7 +25,7 @@ class Bot:
 
     #get if trump exchange 
     def trump_exchange(self, state):
-
+        # add a card that is trump exchange
         pass
     
     #return a list of marriages
@@ -61,9 +57,7 @@ class Bot:
 
     def get_move(self, state):
         moves = state.moves()
-        trump_moves = [] 
+         
         
-
-
+        
         return random.choice(moves)
-
