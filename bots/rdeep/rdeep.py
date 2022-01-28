@@ -1,6 +1,6 @@
 """
 RdeepBot - This bot looks ahead by following a random path down the game tree. That is,
- it assumes that all players have the same strategy as rand.py, and samples N random
+ it assumes that all players have the same strategy as test_rulebot.py, and samples N random
  games following from a given move. It then ranks the moves by averaging the heuristics
  of the resulting states.
 """

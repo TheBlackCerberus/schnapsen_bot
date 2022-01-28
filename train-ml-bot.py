@@ -5,7 +5,7 @@ Every observed state is converted to a feature vector and labeled with the event
 
 This is part of the second worksheet.
 """
-from api import State, util
+from api import State
 import pickle
 import os.path
 from argparse import ArgumentParser

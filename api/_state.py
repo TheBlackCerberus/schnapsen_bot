@@ -414,6 +414,9 @@ class State:
 				trump_moves.append(move)
 		return trump_moves
 
+	def is_trump_move(self, chosen_move) -> bool:
+		return chosen_move[0] is not None and Deck.get_suit(chosen_move[0]) == self.get_trump_suit()
+
 	def get_stock_size(self):
 		"""
 		:return: The size of the stock

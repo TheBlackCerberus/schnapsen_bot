@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 """
 A basic adaptive bot. This is part of the third worksheet.
-
 """
 
 from api import State, util
@@ -56,7 +55,7 @@ class Bot:
             # IMPLEMENT: Add a function call so that 'value' will
             # contain the predicted value of 'next_state'
             # NOTE: This is different from the line in the minimax/alphabeta bot
-            value = ???
+            value = self.heuristic(next_state)
 
             if maximizing(state):
                 if value > best_value:
@@ -99,7 +98,6 @@ def features(state):
     # type: (State) -> tuple[float, ...]
     """
     Extract features from this state. Remember that every feature vector returned should have the same length.
-
     :param state: A state to be converted to a feature vector
     :return: A tuple of floats: a feature vector representing this state.
     """
@@ -107,42 +105,54 @@ def features(state):
     feature_set = []
 
     # Add player 1's points to feature set
-    p1_points = ???
+    p1_points = state.get_points(1)
+    feature_set.append(p1_points)
 
     # Add player 2's points to feature set
-    p2_points = ???
+    p2_points = state.get_points(2)
+    feature_set.append(p2_points)
 
     # Add player 1's pending points to feature set
-    p1_pending_points = ???
+    p1_pending_points = state.get_pending_points(1)
+    feature_set.append(p1_pending_points)
 
     # Add plauer 2's pending points to feature set
-    p2_pending_points = ???
+    p2_pending_points = state.get_pending_points(2)
+    feature_set.append(p2_pending_points)
 
     # Get trump suit
-    trump_suit = ???
+    trump_suit = state.get_trump_suit()
+    feature_set.append(trump_suit)
 
     # Add phase to feature set
-    phase = ???
+    phase = state.get_phase()
+    feature_set.append(phase)
 
     # Add stock size to feature set
-    stock_size = ???
+    stock_size = state.get_stock_size()
+    feature_set.append(stock_size)
 
     # Add leader to feature set
-    leader = ???
+    leader = state.leader()
+    feature_set.append(leader)
 
     # Add whose turn it is to feature set
-    whose_turn = ???
+    whose_turn = state.whose_turn()
+    feature_set.append(whose_turn)
 
     # Add opponent's played card to feature set
-    opponents_played_card = ???
-
+    opponents_played_card = state.get_opponents_played_card()
+    feature_set.append(opponents_played_card)
 
     ################## You do not need to do anything below this line ########################
 
     perspective = state.get_perspective()
-
     # Perform one-hot encoding on the perspective.
     # Learn more about one-hot here: https://machinelearningmastery.com/how-to-one-hot-encode-sequence-data-in-python/
+    # Convert the card state array containing strings, to an array of integers.
+    # The integers here just represent card state IDs. In a way they can be
+    # thought of as arbitrary, as long as they are different from each other.
+
     perspective = [card if card != 'U'   else [1, 0, 0, 0, 0, 0] for card in perspective]
     perspective = [card if card != 'S'   else [0, 1, 0, 0, 0, 0] for card in perspective]
     perspective = [card if card != 'P1H' else [0, 0, 1, 0, 0, 0] for card in perspective]
