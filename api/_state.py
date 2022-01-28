@@ -406,6 +406,14 @@ class State:
 		"""
 		return self.__deck.get_trump_suit()
 
+	def get_trump_moves(self):
+		trump_moves = []
+		moves = self.moves()
+		for index, move in enumerate(moves):
+			if move[0] is not None and Deck.get_suit(move[0]) == self.get_trump_suit():
+				trump_moves.append(move)
+		return trump_moves
+
 	def get_stock_size(self):
 		"""
 		:return: The size of the stock
