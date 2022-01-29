@@ -212,19 +212,50 @@ class Bot:
                 else:
                     # if card is card and trump
                     if util.get_suit(opponents_card) == state.get_trump_suit():
-                        
+
                         # if there is bigger trump card play that
+                        if self.is_not_empty(state.get_trump_moves()):
+                            for move in  state.get_trump_moves():
+                                if move[0] is not None and move[0] % 5 < opponents_card % 5:
+                                    return move
 
-                        # elif play the lowest non_trump_move
+                        ## elif play the lowest non_trump_move
 
-                        # else play the lowest trump card
+                        #play the lowest non_trump_move (low value moves)
+                        elif self.is_not_empty(self.low_value_moves(state, moves, trump="no")):
+                            return self.low_value_moves(state, moves, trump="no")[0]
+
+                        #play the lowest non_trump_move (high value moves)
+                        elif self.is_not_empty(self.high_value_moves(state, moves, trump="no")):
+                            return self.high_value_moves(state, moves, trump="no")[0]
+                        else:
+                            ##play lowest trump card
+
+                            #play the lowest trump (low value moves)
+                            if self.is_not_empty(self.low_value_moves(state, moves, trump="all")):
+                                return self.low_value_moves(state, moves, trump="all")[0]
+                            #play the lowest trump (high_value_moves)
+                            else:
+                                return self.high_value_moves(state, moves, trump="all")[0]
+
 
                     # if it's not trump card
-                        # if there is bigger low_value_card with same suit play that
+                    else:
+                        # if there is bigger high card with same suit play that
+                        if self.is_not_empty(self.high_value_moves(state, moves, trump="no")):
+                            for move in self.high_value_moves(state, moves, trump="no"):
+                                if util.get_suit(move[0]) == util.get_suit(opponents_card) and move[0] % 5 < opponents_card % 5:
+                                    return move
 
                         # elif the lowest trump available
+                        elif self.is_not_empty(state.get_trump_moves()):
+                            return state.get_trump_moves()[0]
 
-                        # else play the lowest card
+                        else:
+                            for move in moves:
+                                return move
+
+
 
 
             #######################################################################################
@@ -265,6 +296,6 @@ class Bot:
             #call alphabeta
             pass
 
-        return random.choice(moves)
+            return random.choice(moves)
 
 #%%
