@@ -135,9 +135,9 @@ class Bot:
                     if move[0] is None:
                         return move
                     #elif marriage_move available play the move
-                    elif self.is_not_empty(self.__deck.get_possible_mariages(me)):
-                        marriages = self.__deck.get_possible_mariages(me)
-                        return marriages[0]
+                    # elif self.is_not_empty(self.__deck.get_possible_mariages(me)):
+                    #     marriages = self.__deck.get_possible_mariages(me)
+                    #     return marriages[0]
                         # declare marriage somehow (solve later!)
                     #play the lowest non_trump_move (low value moves)
                     elif self.is_not_empty(self.low_value_moves(state, moves, trump="no")):
@@ -294,8 +294,6 @@ class Bot:
         #phase 2
         else:
             #call alphabeta
-            pass
-
             return random.choice(moves)
 
 #%%
