@@ -54,11 +54,7 @@ class Bot:
                 return marriage, move
         
         return False, (None, None)
-    
-    #returns a sorted list of tuples (cards) by value
-    #its in descending order (first highest, last lowest value)
-    def sort_cards(self,cards):
-        sorted(cards, key=lambda card_index: card_index[0]%5)
+
 
     #returns whether a  card is low or high value
     def card_value(self, state, move):
@@ -70,55 +66,51 @@ class Bot:
     #all = gets every low value move
     #yes = gets ONLY the trump low value move
     #no = gets ONLY the non-trump
-    def low_value_moves(self, state, moves, trump="all"): 
+    def low_value_moves(self, state, moves, trump="all"):
         low_value_moves = []
         if trump == "all":
             for move in moves:
-                if move[0] % 5 != 0 and move[0] % 5 != 1:
+                if move[0] is not None and (move[0] % 5 != 0 and move[0] % 5 != 1):
                     low_value_moves.append(move)
-            return low_value_moves        
+            return low_value_moves
         elif trump == "yes":
             for move in moves:
-                if move[0] % 5 != 0 and move[0] % 5 != 1 and state.get_trump_suit() == util.get_suit(move[0]):
+                if move[0] is not None and (move[0] % 5 != 0 and move[0] % 5 != 1) and state.is_trump_move(move):
                     low_value_moves.append(move)
-            return self.sort_cards(low_value_moves)
+            return low_value_moves
         elif trump == "no":
             for move in moves:
-                if move[0] % 5 != 0 and move[0] % 5 != 1 and state.get_trump_suit() != util.get_suit(move[0]):
+                if move[0] is not None and (move[0] % 5 != 0 and move[0] % 5 != 1) and not state.is_trump_move(move):
                     low_value_moves.append(move)
-            return self.sort_cards(low_value_moves)
-        
+            return low_value_moves
         #if we return here, we return an empty list, we have to handle that later!
         return low_value_moves
+            #if we return here, we return an empty list, we have to handle that later!
+            #return low_value_moves
 
 
         
     #index % 5 == 0 or index % 5 == 1
     #moves = state.moves()
-
-    #returns all high value moves, check low_value_moves() for documentation
     def high_value_moves(self, state, moves, trump="all"):
         high_value_moves = []
         if trump == "all":
             for move in moves:
-                if move[0] % 5 == 0 or move[0] % 5 == 1:
+                if move[0] is not None and (move[0] % 5 == 0 or move[0] % 5 == 1):
                     high_value_moves.append(move)
-            return self.sort_cards(high_value_moves)
+            return high_value_moves
         elif trump == "yes":
             for move in moves:
-                if move[0] % 5 == 0 or move[0] % 5 == 1 and state.get_trump_suit() == util.get_suit(move[0]):
+                if move[0] is not None and (move[0] % 5 == 0 or move[0] % 5 == 1) and state.is_trump_move(move):
                     high_value_moves.append(move)
-            return self.sort_cards(high_value_moves)
+            return high_value_moves
         elif trump == "no":
-            #state.get_trump_suit() == util.get_suit(index) 
             for move in moves:
-                if move[0] % 5 == 0 or move[0] % 5 == 1 and state.get_trump_suit() != util.get_suit(move[0]):
+                if move[0] is not None and (move[0] % 5 == 0 or move[0] % 5 == 1) and not state.is_trump_move(move):
                     high_value_moves.append(move)
-            
-            return self.sort_cards(high_value_moves)
-
-        #if we return here, we return an empty list, we have to handle that later!
-        return high_value_moves
+            return high_value_moves
+        #returns all high value moves, check low_value_moves() for documentation
+        #if we return here, we return an empty list, we have to handle that later
 
 
     def get_move(self, state):
