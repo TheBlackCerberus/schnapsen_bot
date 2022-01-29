@@ -115,10 +115,57 @@ class Bot:
 
     def get_move(self, state):
         moves = state.moves()
+        me = state.whose_turn()
         
         #phase 1
         if state.get_phase() == 1:
-            #check if opp played a card
+            #check if our turn
+            if state.whose_turn() == me:
+                #if trump exchange available play the move
+
+                #elif marriage_move available play the move
+
+                #elif play the lowest non_trump_move
+
+                #else play the lowest trump
+
+            else:
+                # if opponent card == low:
+
+                    # if card is low card and trump
+                        # play the lowest non_trump_move if available
+
+                        # else play lowest trump
+
+
+                    # if card is low and is not trump
+
+                        # if there is bigger low_value_card with same suit play that
+
+                        # elif play the non_trump_move if available:
+
+                        # else play the lowest trump
+
+
+               # else its high card:
+
+                    # if it is trump card
+                        # if there is bigger trump card play that
+
+                        # elif play the lowest non_trump_move
+
+                        # else play the lowest trump card
+
+                    # if it's not trump card
+                        # if there is bigger low_value_card with same suit play that
+
+                        # elif the lowest trump available
+
+                        # else play the lowest card
+
+
+            #######################################################################################
+
             #what card did he play - high v card - is it a t card - do we have a low v card
             if state.get_opponents_played_card() is not None: #its true if a card got played by the opponent
                 high_value_move=False
@@ -148,9 +195,13 @@ class Bot:
                     return marriage_move
                 #if state.get_opponents_played_card()
 
+        ###############################################################################################################
+
         #phase 2
-        else:            
+        else:
             #call alphabeta
             pass
-        
+
         return random.choice(moves)
+
+#%%
