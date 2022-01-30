@@ -18,12 +18,14 @@ import sklearn.linear_model
 from sklearn.neural_network import MLPClassifier
 import joblib
 
-from bots.rand import rand
-# from bots.rdeep import rdeep
+#from bots.rand import rand
+#from bots.rdeep import rdeep
+#from bots.bully import bully
+from bots.rulebot import rulebot
 
 from bots.ml.ml import features
 
-def create_dataset(path, player=rand.Bot(), games=2000, phase=1):
+def create_dataset(path, player=rulebot.Bot(), games=2000, phase=1):
     """Create a dataset that can be used for training the ML bot model.
     The dataset is created by having the player (bot) play games against itself.
     The games parameter indicates how many games will be started.
@@ -105,7 +107,7 @@ parser.add_argument("-d", "--dset-path",
 parser.add_argument("-m", "--model-path",
                     dest="model_path",
                     help="Optional model path. Note that this path starts in bots/ml/ instead of the base folder, like dset_path above.",
-                    default="model.pkl")
+                    default="rulebot-model.pkl")
 
 parser.add_argument("-o", "--overwrite",
                     dest="overwrite",
@@ -121,7 +123,7 @@ parser.add_argument("--no-train",
 options = parser.parse_args()
 
 if options.overwrite or not os.path.isfile(options.dset_path):
-    create_dataset(options.dset_path, player=rand.Bot(), games=10000)
+    create_dataset(options.dset_path, player=rulebot.Bot(), games=10000)
 
 if options.train:
 

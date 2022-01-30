@@ -14,6 +14,7 @@ import joblib
 # with a different name, point this line to its path.
 DEFAULT_MODEL = os.path.dirname(os.path.realpath(__file__)) + '/model.pkl'
 
+
 class Bot:
 
     __randomize = True
