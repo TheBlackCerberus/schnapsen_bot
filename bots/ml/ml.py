@@ -136,22 +136,6 @@ def features(state):
     # Add opponent's played card to feature set
     opponents_played_card = state.get_opponents_played_card()
 
-    #add all possible marriages to feature set
-    p1_num_possible_marriages = state.get_num_possible_marriages(1)
-
-    p2_num_possible_marriages = state.get_num_possible_marriages(2)
-
-    #add all number of aces in players hand to feature set
-    num_aces = state.get_num_aces()
-
-    #add all number of tens in players hand to feature set
-    num_tens = state.get_num_tens()
-
-    # add all number of jacks in players hand to feature set
-    num_jacks = state.get_num_jacks()
-
-    # add all number of jacks in players hand to feature set
-    num_kings_and_queens = state.get_num_kings() + state.get_num_queens()
 
     ################## You do not need to do anything below this line ########################
 
@@ -202,22 +186,6 @@ def features(state):
     opponents_played_card_onehot = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     opponents_played_card_onehot[opponents_played_card if opponents_played_card is not None else 20] = 1
     feature_set += opponents_played_card_onehot
-
-    #append number of possible marriages to the feature set
-    feature_set.append(p1_num_possible_marriages/4)
-    feature_set.append(p2_num_possible_marriages/4)
-
-    #append number of aces in hand to the feature set
-    feature_set.append(num_aces/4)
-
-    # append number of tens in hand to the feature set
-    feature_set.append(num_tens/ 4)
-
-    # append number of tens in hand to the feature set
-    feature_set.append(num_jacks/4)
-
-    # append number of tens in hand to the feature set
-    feature_set.append(num_kings_and_queens/8)
 
     # Return feature set
     return feature_set

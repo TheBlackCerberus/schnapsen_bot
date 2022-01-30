@@ -5,7 +5,7 @@ Every observed state is converted to a feature vector and labeled with the event
 
 This is part of the second worksheet.
 """
-from api import State
+from api import State, util
 import pickle
 import os.path
 from argparse import ArgumentParser
@@ -19,7 +19,7 @@ from sklearn.neural_network import MLPClassifier
 import joblib
 
 from bots.rand import rand
-from bots.rdeep import rdeep
+# from bots.rdeep import rdeep
 
 from bots.ml.ml import features
 
@@ -37,8 +37,8 @@ def create_dataset(path, player=rand.Bot(), games=2000, phase=1):
     player -- the player which will play against itself, default the rand Bot
     games -- the number of games to play, default 2000
     phase -- wheter to start the games in phase 1, the default, or phase 2
-    """ 
-    
+    """
+
     data = []
     target = []
 
