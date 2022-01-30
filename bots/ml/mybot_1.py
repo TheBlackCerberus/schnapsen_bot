@@ -4,7 +4,7 @@ A basic adaptive bot. This is part of the third worksheet.
 
 """
 
-from api import State, util
+from api import State, util, Deck
 import random, os
 from itertools import chain
 
@@ -136,22 +136,24 @@ def features(state):
     # Add opponent's played card to feature set
     opponents_played_card = state.get_opponents_played_card()
 
-    #add all possible marriages to feature set
-    p1_num_possible_marriages = state.get_num_possible_marriages(1)
 
-    p2_num_possible_marriages = state.get_num_possible_marriages(2)
+    ##### newly added features ######
 
-    #add all number of aces in players hand to feature set
-    num_aces = state.get_num_aces()
+    # Add number of low cards(non trump) moves available for player
+    num_of_low_non_trump_cards = len(state.low_value_moves(trump="no"))
 
-    #add all number of tens in players hand to feature set
-    num_tens = state.get_num_tens()
+    # Add number of high cards(non trump) moves available for player
+    num_of_high_non_trump_cards = len(state.high_value_moves(trump="no"))
 
-    # add all number of jacks in players hand to feature set
-    num_jacks = state.get_num_jacks()
+    # Add number of low cards(trump) moves available for player
+    num_of_low_trump_cards = len(state.low_value_moves(trump="yes"))
 
-    # add all number of jacks in players hand to feature set
-    num_kings_and_queens = state.get_num_kings() + state.get_num_queens()
+    # Add number of high cards(trump) moves available for player
+    num_of_high_trump_cards = len(state.high_value_moves(trump="yes"))
+
+    # Return (1 or 0) if player has at least one marriage
+    have_marriage = state.have_marriage()
+
 
     ################## You do not need to do anything below this line ########################
 
@@ -203,21 +205,38 @@ def features(state):
     opponents_played_card_onehot[opponents_played_card if opponents_played_card is not None else 20] = 1
     feature_set += opponents_played_card_onehot
 
-    #append number of possible marriages to the feature set
-    feature_set.append(p1_num_possible_marriages/4)
-    feature_set.append(p2_num_possible_marriages/4)
+    ################################## append new ############################################
 
-    #append number of aces in hand to the feature set
-    feature_set.append(num_aces/4)
+    # append number number of non trump low card
+    feature_set.append(num_of_low_non_trump_cards/5)
 
-    # append number of tens in hand to the feature set
-    feature_set.append(num_tens/ 4)
+    # append number of non trump high cards
+    feature_set.append(num_of_high_non_trump_cards/5)
 
-    # append number of tens in hand to the feature set
-    feature_set.append(num_jacks/4)
+    # append low cards(trump) moves available for players hand
+    feature_set.append(num_of_low_trump_cards/3)
 
-    # append number of tens in hand to the feature set
-    feature_set.append(num_kings_and_queens/8)
+    # append high cards(trump) moves available for player hand
+    feature_set.append(num_of_high_trump_cards/2)
+
+    # Append one-hot encoded leader to feature set
+    feature_set += [1, 0] if have_marriage == 1 else [0, 1]
+
+    # #append number of possible marriages to the feature set
+    # feature_set.append(p1_num_possible_marriages/4)
+    # feature_set.append(p2_num_possible_marriages/4)
+    #
+    # #append number of aces in hand to the feature set
+    # feature_set.append(num_aces/4)
+    #
+    # # append number of tens in hand to the feature set
+    # feature_set.append(num_tens/ 4)
+    #
+    # # append number of tens in hand to the feature set
+    # feature_set.append(num_jacks/4)
+    #
+    # # append number of tens in hand to the feature set
+    # feature_set.append(num_kings_and_queens/8)
 
     # Return feature set
     return feature_set

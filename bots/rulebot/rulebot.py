@@ -117,15 +117,12 @@ class Bot:
                 return move
     
     #return a marriage play if there is one
-    def marriage(self, moves):
+    def get_marriages(self, moves):
         marriages = []
-        for (first, second) in moves:
-            if first is not None and second is not None:
-                marriage = True
-                move = (first, second)
-                return marriage, move
-        
-        return False, (None, None)
+        for move in moves:
+            if move[0] is not None and move[1] is not None:
+                marriages.append(move)
+        return marriages
 
 
     #returns whether a  card is low or high value
@@ -207,11 +204,8 @@ class Bot:
                     if move[0] is None:
                         return move
                     #elif marriage_move available play the move
-                    # elif self.is_not_empty(self.__deck.get_possible_mariages(me)):
-                    #     marriages = self.__deck.get_possible_mariages(me)
-                    #     return marriages[0]
-                        # declare marriage somehow (solve later!)
-                    #play the lowest non_trump_move (low value moves)
+                    elif self.is_not_empty(self.get_marriages(moves)):
+                        return self.get_marriages(moves)[0]
                     elif self.is_not_empty(self.low_value_moves(state, moves, trump="no")):
                         return self.low_value_moves(state, moves, trump="no")[0]
                     #play the lowest trump (low value moves)

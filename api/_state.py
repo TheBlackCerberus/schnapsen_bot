@@ -417,6 +417,52 @@ class State:
 	def is_trump_move(self, chosen_move) -> bool:
 		return chosen_move[0] is not None and Deck.get_suit(chosen_move[0]) == self.get_trump_suit()
 
+	def low_value_moves(self, trump="all"):
+		low_value_moves = []
+		moves = self.moves()
+		if trump == "all":
+			for move in moves:
+				if move[0] is not None and (move[0] % 5 != 0 and move[0] % 5 != 1):
+					low_value_moves.append(move)
+			return low_value_moves
+		elif trump == "yes":
+			for move in moves:
+				if move[0] is not None and (move[0] % 5 != 0 and move[0] % 5 != 1) and self.is_trump_move(move):
+					low_value_moves.append(move)
+			return low_value_moves
+		elif trump == "no":
+			for move in moves:
+				if move[0] is not None and (move[0] % 5 != 0 and move[0] % 5 != 1) and not self.is_trump_move(move):
+					low_value_moves.append(move)
+			return low_value_moves
+		return low_value_moves
+
+	def high_value_moves(self, trump="all"):
+		high_value_moves = []
+		moves = self.moves()
+		if trump == "all":
+			for move in moves:
+				if move[0] is not None and (move[0] % 5 == 0 or move[0] % 5 == 1):
+					high_value_moves.append(move)
+			return high_value_moves
+		elif trump == "yes":
+			for move in moves:
+				if move[0] is not None and (move[0] % 5 == 0 or move[0] % 5 == 1) and self.is_trump_move(move):
+					high_value_moves.append(move)
+			return high_value_moves
+		elif trump == "no":
+			for move in moves:
+				if move[0] is not None and (move[0] % 5 == 0 or move[0] % 5 == 1) and not self.is_trump_move(move):
+					high_value_moves.append(move)
+			return high_value_moves
+
+	def have_marriage(self) -> int:
+		player = self.whose_turn()
+		if len(self.__deck.get_possible_mariages(player)) == 0:
+			return 0
+		else:
+			return 1
+
 	def get_stock_size(self):
 		"""
 		:return: The size of the stock
@@ -431,7 +477,7 @@ class State:
 
 	def make_assumption(self):
 		"""
-		Takes the current imperfect information state and makes a 
+		Takes the current imperfect information state and makes a
 		random guess as to the states of the unknown cards.
 		:return: A perfect information state object.
 		"""

@@ -197,6 +197,15 @@ class Deck:
 
 		return possible_mariages
 
+	# def have_marriage(self, state) -> int:
+	# 	player = state.whose_turn()
+	# 	if len(self.get_possible_mariages(player)) == 0:
+	# 		return 0
+	# 	else:
+	# 		return 1
+
+
+
 	# Takes the top card of the stock and places it in the specified player's hand.
 	def draw_card(self, player):
 		if self.get_stock_size() == 0:

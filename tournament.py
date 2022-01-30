@@ -66,7 +66,7 @@ if __name__ == "__main__":
     parser.add_argument("-p", "--players",
                         dest="players",
                         help="Comma-separated list of player names (enclose with quotes).",
-                        default="rand,bully,rdeep")
+                        default="rand,bully,rdeep,ml_on_rand,ml_on_rdeep,ml_on_bully,ml_on_rulebot")
 
     parser.add_argument("-r", "--repeats",
                         dest="repeats",
