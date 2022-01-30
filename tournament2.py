@@ -9,8 +9,7 @@ python play.py -h
 from argparse import ArgumentParser
 from api import State, util, engine
 import random, time
-
-
+from matplotlib import pyplot as plt
 
 def run_tournament(options):
 
@@ -26,7 +25,11 @@ def run_tournament(options):
 
     totalgames = (n*n - n)/2 * options.repeats
     playedgames = 0
-
+    '''
+    x*(x-1)/2 = 
+    wintable = []
+    for i in range()
+    '''
     print('Playing {} games:'.format(int(totalgames)))
     for a, b in matches:
         for r in range(options.repeats):
@@ -40,10 +43,13 @@ def run_tournament(options):
             state = State.generate(phase=int(options.phase))
 
             winner, score = engine.play(bots[p[0]], bots[p[1]], state, options.max_time*1000, verbose=options.verbose, fast=options.fast)
+            print(botnames[p[0]], "and" , botnames[p[1]], "played")
+            
 
             if winner is not None:
                 winner = p[winner - 1]
                 wins[winner] += 1 #score
+                print(botnames[winner], "was the winner")
 
             playedgames += 1
             print('Played {} out of {:.0f} games ({:.0f}%): {} \r'.format(playedgames, totalgames, playedgames/float(totalgames) * 100, wins))
@@ -52,6 +58,11 @@ def run_tournament(options):
     for i in range(len(bots)):
         print('    bot {}: {} points'.format(bots[i], wins[i]))
 
+    plt.bar(botnames, wins)
+    #plt.xlabel('')
+    plt.ylabel('wins')
+    plt.savefig('results.png')
+    plt.show()
 
 if __name__ == "__main__":
 
@@ -66,7 +77,7 @@ if __name__ == "__main__":
     parser.add_argument("-p", "--players",
                         dest="players",
                         help="Comma-separated list of player names (enclose with quotes).",
-                        default="rand,bully,rdeep")
+                        default="rand,bully,rdeep,rulebot")
 
     parser.add_argument("-r", "--repeats",
                         dest="repeats",
