@@ -88,7 +88,7 @@ if __name__ == "__main__":
     parser.add_argument("-p", "--players",
                         dest="players",
                         help="Comma-separated list of player names (enclose with quotes).",
-                        default="ml_on_kbbot,ml_on_kbbot_f2")
+                        default="ml_on_kbbot_f2,ml_on_rulebot_f2")
 
     parser.add_argument("-r", "--repeats",
                         dest="repeats",

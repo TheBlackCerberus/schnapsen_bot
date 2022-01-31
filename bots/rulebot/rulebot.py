@@ -250,10 +250,6 @@ class Bot:
                         elif self.is_not_empty(self.low_value_moves(state, trump="no")):
                             return self.low_value_moves(state, trump="no")[0]
 
-                        #     #play the lowest non_trump_move (high value moves)
-                        # elif self.is_not_empty(self.high_value_moves(state, moves, trump="no")):
-                        #     return self.high_value_moves(state, moves, trump="no")[0]
-
                         else:
                             #play the lowest trump (low value moves)
                             if self.is_not_empty(self.low_value_moves(state, trump="all")):
@@ -302,12 +298,19 @@ class Bot:
 
 
                         # elif the lowest trump available
-                        elif self.is_not_empty(state.get_trump_moves()):
-                            return state.get_trump_moves()[0]
+                        elif self.is_not_empty(self.low_value_moves(state, trump="yes")):
+                            return self.low_value_moves(state, trump="yes")[0]
+
+                        elif self.is_not_empty(self.high_value_moves(state, trump="yes")):
+                            return self.high_value_moves(state, trump="yes")[0]
 
                         else:
-                            for move in moves:
-                                return move
+                            #play the lowest trump (low value moves)
+                            if self.is_not_empty(self.low_value_moves(state, trump="all")):
+                                return self.low_value_moves(state, trump="all")[0]
+                            #play the lowest trump (high_value_moves)
+                            else:
+                                return self.high_value_moves(state, trump="all")[0]
 
 
 
