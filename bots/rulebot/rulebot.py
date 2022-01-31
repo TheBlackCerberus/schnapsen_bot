@@ -139,48 +139,39 @@ class Bot:
     #all = gets every low value move
     #yes = gets ONLY the trump low value move
     #no = gets ONLY the non-trump
-    def low_value_moves(self, state, moves, trump="all"):
+    def low_value_moves(self, state, trump="all"):
         low_value_moves = []
-        if trump == "all":
-            for move in moves:
+        moves = state.moves()
+        for move in moves:
+            if trump == "all":
                 if move[0] is not None and (move[0] % 5 != 0 and move[0] % 5 != 1):
                     low_value_moves.append(move)
-            return low_value_moves
-        elif trump == "yes":
-            for move in moves:
+            elif trump == "yes":
                 if move[0] is not None and (move[0] % 5 != 0 and move[0] % 5 != 1) and state.is_trump_move(move):
                     low_value_moves.append(move)
-            return low_value_moves
-        elif trump == "no":
-            for move in moves:
+            elif trump == "no":
                 if move[0] is not None and (move[0] % 5 != 0 and move[0] % 5 != 1) and not state.is_trump_move(move):
                     low_value_moves.append(move)
-            return low_value_moves
-        #if we return here, we return an empty list, we have to handle that later!
-        return low_value_moves
-            #if we return here, we return an empty list, we have to handle that later!
-            #return low_value_moves
+        sorted_list = sorted(low_value_moves, key=lambda x:x[0] % 5, reverse=True)
+        return sorted_list
 
-        
     #index % 5 == 0 or index % 5 == 1
     #moves = state.moves()
-    def high_value_moves(self, state, moves, trump="all"):
+    def high_value_moves(self, state, trump="all"):
         high_value_moves = []
-        if trump == "all":
-            for move in moves:
+        moves = state.moves()
+        for move in moves:
+            if trump == "all":
                 if move[0] is not None and (move[0] % 5 == 0 or move[0] % 5 == 1):
                     high_value_moves.append(move)
-            return high_value_moves
-        elif trump == "yes":
-            for move in moves:
+            elif trump == "yes":
                 if move[0] is not None and (move[0] % 5 == 0 or move[0] % 5 == 1) and state.is_trump_move(move):
                     high_value_moves.append(move)
-            return high_value_moves
-        elif trump == "no":
-            for move in moves:
+            elif trump == "no":
                 if move[0] is not None and (move[0] % 5 == 0 or move[0] % 5 == 1) and not state.is_trump_move(move):
                     high_value_moves.append(move)
-            return high_value_moves
+        sorted_list = sorted(high_value_moves, key=lambda x:x[0] % 5, reverse=True)
+        return sorted_list
         #returns all high value moves, check low_value_moves() for documentation
         #if we return here, we return an empty list, we have to handle that later
 
@@ -206,18 +197,19 @@ class Bot:
                     #elif marriage_move available play the move
                     elif self.is_not_empty(self.get_marriages(moves)):
                         return self.get_marriages(moves)[0]
-                    elif self.is_not_empty(self.low_value_moves(state, moves, trump="no")):
-                        return self.low_value_moves(state, moves, trump="no")[0]
+                    # play the lowest trump non trump (low value moves)
+                    elif self.is_not_empty(self.low_value_moves(state, trump="no")):
+                        return self.low_value_moves(state, trump="no")[0]
                     #play the lowest trump (low value moves)
-                    elif self.is_not_empty(self.low_value_moves(state, moves, trump="all")):
-                        return self.low_value_moves(state, moves, trump="all")[0]
+                    elif self.is_not_empty(self.low_value_moves(state, trump="all")):
+                        return self.low_value_moves(state, trump="all")[0]
                     else:
                         #play the lowest non_trump_move (high value moves)
-                        if self.is_not_empty(self.high_value_moves(state, moves, trump="no")):
-                            return self.high_value_moves(state, moves, trump="no")[0]
+                        if self.is_not_empty(self.high_value_moves(state, trump="no")):
+                            return self.high_value_moves(state, trump="no")[0]
                         #play the lowest trump (high_value_moves)
                         else:
-                            return self.high_value_moves(state, moves, trump="all")[0]
+                            return self.high_value_moves(state, trump="all")[0]
 
             else:
                 # if opponent card == low:
@@ -227,49 +219,49 @@ class Bot:
                     # if card is low card and trump
                     if util.get_suit(opponents_card) == state.get_trump_suit():
                         #play the lowest non_trump_move (low value moves)
-                        if self.is_not_empty(self.low_value_moves(state, moves, trump="no")):
-                            return self.low_value_moves(state, moves, trump="no")[0]
+                        if self.is_not_empty(self.low_value_moves(state, trump="no")):
+                            return self.low_value_moves(state, trump="no")[0]
                             #play the lowest non_trump_move (high value moves)
-                        elif self.is_not_empty(self.high_value_moves(state, moves, trump="no")):
-                            return self.high_value_moves(state, moves, trump="no")[0]
+                        elif self.is_not_empty(self.high_value_moves(state, trump="no")):
+                            return self.high_value_moves(state, trump="no")[0]
                         else:
                             #play the lowest trump (low value moves)
-                            if self.is_not_empty(self.low_value_moves(state, moves, trump="all")):
-                                return self.low_value_moves(state, moves, trump="all")[0]
+                            if self.is_not_empty(self.low_value_moves(state, trump="all")):
+                                return self.low_value_moves(state, trump="all")[0]
                             #play the lowest trump (high_value_moves)
                             else:
-                                return self.high_value_moves(state, moves, trump="all")[0]
+                                return self.high_value_moves(state, trump="all")[0]
 
 
                     # if card is low and is not trump
                     else:
                         # if there is bigger low_value_card with same suit play that
-                        if self.is_not_empty(self.low_value_moves(state, moves, trump="no")):
-                            for move in self.low_value_moves(state, moves, trump="no"):
+                        if self.is_not_empty(self.low_value_moves(state, trump="no")):
+                            for move in self.low_value_moves(state, trump="no"):
                                 if util.get_suit(move[0]) == util.get_suit(opponents_card) and move[0] % 5 < opponents_card % 5:
                                     return move
 
                         # if there is bigger high_value_card with same suit play that
-                        elif self.is_not_empty(self.high_value_moves(state, moves, trump="no")):
-                            for move in self.high_value_moves(state, moves, trump="no"):
+                        elif self.is_not_empty(self.high_value_moves(state, trump="no")):
+                            for move in self.high_value_moves(state, trump="no"):
                                 if util.get_suit(move[0]) == util.get_suit(opponents_card) and move[0] % 5 < opponents_card % 5:
                                     return move
 
-                        elif self.is_not_empty(self.low_value_moves(state, moves, trump="no")):
-                            return self.low_value_moves(state, moves, trump="no")[0]
+                        elif self.is_not_empty(self.low_value_moves(state, trump="no")):
+                            return self.low_value_moves(state, trump="no")[0]
 
-                            #play the lowest non_trump_move (high value moves)
-                        elif self.is_not_empty(self.high_value_moves(state, moves, trump="no")):
-                            return self.high_value_moves(state, moves, trump="no")[0]
+                        #     #play the lowest non_trump_move (high value moves)
+                        # elif self.is_not_empty(self.high_value_moves(state, moves, trump="no")):
+                        #     return self.high_value_moves(state, moves, trump="no")[0]
 
                         else:
                             #play the lowest trump (low value moves)
-                            if self.is_not_empty(self.low_value_moves(state, moves, trump="all")):
-                                return self.low_value_moves(state, moves, trump="all")[0]
+                            if self.is_not_empty(self.low_value_moves(state, trump="all")):
+                                return self.low_value_moves(state, trump="all")[0]
 
                             #play the lowest trump (high_value_moves)
                             else:
-                                return self.high_value_moves(state, moves, trump="all")[0]
+                                return self.high_value_moves(state, trump="all")[0]
 
                 # else its high card:
                 else:
@@ -277,36 +269,37 @@ class Bot:
                     if util.get_suit(opponents_card) == state.get_trump_suit():
 
                         # if there is bigger trump card play that
-                        if self.is_not_empty(state.get_trump_moves()):
-                            for move in  state.get_trump_moves():
+                        if self.is_not_empty(self.high_value_moves(state, trump="yes")):
+                            for move in self.high_value_moves(state, trump="yes"):
                                 if move[0] is not None and move[0] % 5 < opponents_card % 5:
                                     return move
 
                         #play the lowest non_trump_move (low value moves)
-                        elif self.is_not_empty(self.low_value_moves(state, moves, trump="no")):
-                            return self.low_value_moves(state, moves, trump="no")[0]
+                        elif self.is_not_empty(self.low_value_moves(state, trump="no")):
+                            return self.low_value_moves(state, trump="no")[0]
 
                         #play the lowest non_trump_move (high value moves)
-                        elif self.is_not_empty(self.high_value_moves(state, moves, trump="no")):
-                            return self.high_value_moves(state, moves, trump="no")[0]
+                        elif self.is_not_empty(self.high_value_moves(state, trump="no")):
+                            return self.high_value_moves(state, trump="no")[0]
                         else:
                             ##play lowest trump card
 
                             #play the lowest trump (low value moves)
-                            if self.is_not_empty(self.low_value_moves(state, moves, trump="all")):
-                                return self.low_value_moves(state, moves, trump="all")[0]
+                            if self.is_not_empty(self.low_value_moves(state, trump="all")):
+                                return self.low_value_moves(state, trump="all")[0]
                             #play the lowest trump (high_value_moves)
                             else:
-                                return self.high_value_moves(state, moves, trump="all")[0]
+                                return self.high_value_moves(state, trump="all")[0]
 
 
                     # if it's not trump card
                     else:
                         # if there is bigger high card with same suit play that
-                        if self.is_not_empty(self.high_value_moves(state, moves, trump="no")):
-                            for move in self.high_value_moves(state, moves, trump="no"):
+                        if self.is_not_empty(self.high_value_moves(state, trump="no")):
+                            for move in self.high_value_moves(state, trump="no"):
                                 if util.get_suit(move[0]) == util.get_suit(opponents_card) and move[0] % 5 < opponents_card % 5:
                                     return move
+
 
                         # elif the lowest trump available
                         elif self.is_not_empty(state.get_trump_moves()):

@@ -420,41 +420,36 @@ class State:
 	def low_value_moves(self, trump="all"):
 		low_value_moves = []
 		moves = self.moves()
-		if trump == "all":
-			for move in moves:
+		for move in moves:
+			if trump == "all":
 				if move[0] is not None and (move[0] % 5 != 0 and move[0] % 5 != 1):
 					low_value_moves.append(move)
-			return low_value_moves
-		elif trump == "yes":
-			for move in moves:
+			elif trump == "yes":
 				if move[0] is not None and (move[0] % 5 != 0 and move[0] % 5 != 1) and self.is_trump_move(move):
 					low_value_moves.append(move)
-			return low_value_moves
-		elif trump == "no":
-			for move in moves:
+			elif trump == "no":
 				if move[0] is not None and (move[0] % 5 != 0 and move[0] % 5 != 1) and not self.is_trump_move(move):
 					low_value_moves.append(move)
-			return low_value_moves
-		return low_value_moves
+		sorted_list = sorted(low_value_moves, key=lambda x:x[0] % 5, reverse=True)
+		return sorted_list
+
 
 	def high_value_moves(self, trump="all"):
 		high_value_moves = []
 		moves = self.moves()
-		if trump == "all":
-			for move in moves:
+		for move in moves:
+			if trump == "all":
 				if move[0] is not None and (move[0] % 5 == 0 or move[0] % 5 == 1):
 					high_value_moves.append(move)
-			return high_value_moves
-		elif trump == "yes":
-			for move in moves:
+			elif trump == "yes":
 				if move[0] is not None and (move[0] % 5 == 0 or move[0] % 5 == 1) and self.is_trump_move(move):
 					high_value_moves.append(move)
-			return high_value_moves
-		elif trump == "no":
-			for move in moves:
+			elif trump == "no":
 				if move[0] is not None and (move[0] % 5 == 0 or move[0] % 5 == 1) and not self.is_trump_move(move):
 					high_value_moves.append(move)
-			return high_value_moves
+		sorted_list = sorted(high_value_moves, key=lambda x:x[0] % 5, reverse=True)
+		return sorted_list
+
 
 	def have_marriage(self) -> int:
 		player = self.whose_turn()
