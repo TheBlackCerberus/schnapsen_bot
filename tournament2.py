@@ -37,6 +37,7 @@ def run_tournament(options):
     for i in range()
     '''
     print('Playing {} games:'.format(int(totalgames)))
+    f = open("seeds.txt", "w")
     for a, b in matches:
         for r in range(options.repeats):
 
@@ -46,8 +47,9 @@ def run_tournament(options):
                 p = [b, a]
 
             # Generate a state with a random seed
-            state = State.generate(phase=int(options.phase))
-
+            state = State.generate(id=r,phase=int(options.phase))
+            f.write(str(r)+"\n")
+            #print("the used seed:",r)
             winner, score = engine.play(bots[p[0]], bots[p[1]], state, options.max_time*1000, verbose=options.verbose, fast=options.fast)
             print(botnames[p[0]], "and" , botnames[p[1]], "played")
             
@@ -63,10 +65,12 @@ def run_tournament(options):
     print('Results:')
     for i in range(len(bots)):
         print('    bot {}: {} points'.format(bots[i], wins[i]))
-
-    plt.bar(botnames, wins)
+    f.close()
+    fig, ax = plt.subplots()
+    p1 = ax.bar(botnames, wins)
+    
+    plt.bar_label(p1, label_type='center')
     plt.title("Title")
-    plt.ylabel('wins')
     plt.savefig('results.png')
     plt.show()
 
