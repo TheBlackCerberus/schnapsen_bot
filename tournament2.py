@@ -10,8 +10,8 @@ from argparse import ArgumentParser
 from api import State, util, engine
 import random, time
 from matplotlib import pyplot as plt
-from bots.ml import ml_old
-from bots.ml.ml_old import DEFAULT_MODEL
+from bots.ml import ml
+from bots.ml.ml import DEFAULT_MODEL
 
 #ml_on_rand = ml.Bot(model_file=DEFAULT_MODEL)
 #ml_on_rdeep = ml.Bot(model_file='./models/rdeep-model.pkl')
@@ -64,12 +64,13 @@ def run_tournament(options):
     for i in range(len(bots)):
         print('    bot {}: {} points'.format(bots[i], wins[i]))
 
-    plt.bar(botnames, wins)
+    fig, ax = plt.subplots()
+    p1 = ax.bar(botnames, wins)
+
+    plt.bar_label(p1, label_type='center')
     plt.title("Title")
-    plt.ylabel('wins')
     plt.savefig('results.png')
     plt.show()
-
     #rand,bully,rdeep,rulebot,kbbot
 
 if __name__ == "__main__":
@@ -85,12 +86,12 @@ if __name__ == "__main__":
     parser.add_argument("-p", "--players",
                         dest="players",
                         help="Comma-separated list of player names (enclose with quotes).",
-                        default="rdeep,rulebot,kbbot")
+                        default="ml_on_rand,ml_on_kbbot,ml_on_rulebot,ml_on_rdeep")
 
     parser.add_argument("-r", "--repeats",
                         dest="repeats",
                         help="How many matches to play for each pair of bots",
-                        type=int, default=10)
+                        type=int, default=1000)
 
     parser.add_argument("-t", "--max-time",
                         dest="max_time",
