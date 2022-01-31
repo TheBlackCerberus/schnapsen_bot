@@ -10,8 +10,8 @@ from argparse import ArgumentParser
 from api import State, util, engine
 import random, time
 from matplotlib import pyplot as plt
-from bots.ml import ml
-from bots.ml.ml import DEFAULT_MODEL
+from bots.ml import ml_old
+from bots.ml.ml_old import DEFAULT_MODEL
 
 #ml_on_rand = ml.Bot(model_file=DEFAULT_MODEL)
 #ml_on_rdeep = ml.Bot(model_file='./models/rdeep-model.pkl')
@@ -88,12 +88,12 @@ if __name__ == "__main__":
     parser.add_argument("-p", "--players",
                         dest="players",
                         help="Comma-separated list of player names (enclose with quotes).",
-                        default="ml_on_rand,ml_on_kbbot,ml_on_rulebot,ml_on_rdeep")
+                        default="ml_on_kbbot,ml_on_kbbot_f2")
 
     parser.add_argument("-r", "--repeats",
                         dest="repeats",
                         help="How many matches to play for each pair of bots",
-                        type=int, default=1000)
+                        type=int, default=10000)
 
     parser.add_argument("-t", "--max-time",
                         dest="max_time",
