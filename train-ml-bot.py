@@ -19,13 +19,14 @@ from sklearn.neural_network import MLPClassifier
 import joblib
 
 #from bots.rand import rand
-from bots.kbbot import kbbot
+#from bots.kbbot import kbbot
 #from bots.rdeep import rdeep
 #from bots.rulebot import rulebot
+from bots.ml_on_rand_f2 import ml_on_rand_f2
 
 from bots.ml.ml_old import features
 
-def create_dataset(path, player=kbbot.Bot(), games=10000, phase=1):
+def create_dataset(path, player=ml_on_rand_f2.Bot(), games=10000, phase=1):
     """Create a dataset that can be used for training the ML bot model.
     The dataset is created by having the player (bot) play games against itself.
     The games parameter indicates how many games will be started.
@@ -107,12 +108,12 @@ parser.add_argument("-d", "--dset-path",
 parser.add_argument("-m", "--model-path",
                     dest="model_path",
                     help="Optional model path. Note that this path starts in bots/ml/ instead of the base folder, like dset_path above.",
-                    default="kbbot-model-f2.pkl")
+                    default="ml_on_rand_rulebot_f2.pkl")
 
 parser.add_argument("-o", "--overwrite",
                     dest="overwrite",
                     action="store_true",
-                    help="Whether to create a new dataset regardless of whether one already exists at the specified path.")
+                    help="WhethYou are not looking at one proer to create a new dataset regardless of whether one already exists at the specified path.")
 
 parser.add_argument("--no-train",
                     dest="train",
@@ -123,7 +124,7 @@ parser.add_argument("--no-train",
 options = parser.parse_args()
 
 if options.overwrite or not os.path.isfile(options.dset_path):
-    create_dataset(options.dset_path, player=kbbot.Bot(), games=10000)
+    create_dataset(options.dset_path, player=ml_on_rand_f2.Bot(), games=10000)
 
 if options.train:
 

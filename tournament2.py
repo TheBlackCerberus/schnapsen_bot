@@ -88,12 +88,12 @@ if __name__ == "__main__":
     parser.add_argument("-p", "--players",
                         dest="players",
                         help="Comma-separated list of player names (enclose with quotes).",
-                        default="ml_on_kbbot_f2,ml_on_rulebot_f2")
+                        default="ml_on_rand_rulebot_f2,ml_on_rulebot_f2,ml_on_rand_f2,rdeep")
 
     parser.add_argument("-r", "--repeats",
                         dest="repeats",
                         help="How many matches to play for each pair of bots",
-                        type=int, default=10000)
+                        type=int, default=1000)
 
     parser.add_argument("-t", "--max-time",
                         dest="max_time",
